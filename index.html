@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Petrol Station Till Calculator</title>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+  <div class="container">
+    <h1>Till Closing Calculator</h1>
+    <form id="tillForm">
+      <div class="notes">
+        <h2>Notes</h2>
+        <label for="fifty">£50:</label>
+        <input type="number" id="fifty" name="fifty" value="0"><br><br>
+        <label for="twenty">£20:</label>
+        <input type="number" id="twenty" name="twenty" value="0"><br><br>
+        <label for="ten">£10:</label>
+        <input type="number" id="ten" name="ten" value="0"><br><br>
+        <label for="five">£5:</label>
+        <input type="number" id="five" name="five" value="0"><br><br>
+      </div>
+
+      <div class="coins">
+        <h2>Coins (Weight in Grams)</h2>
+        <label for="twoPound">£2:</label>
+        <input type="number" id="twoPound" name="twoPound" value="0" step="0.01"><br><br>
+        <label for="onePound">£1:</label>
+        <input type="number" id="onePound" name="onePound" value="0" step="0.01"><br><br>
+        <label for="fiftyP">50p:</label>
+        <input type="number" id="fiftyP" name="fiftyP" value="0" step="0.01"><br><br>
+        <label for="twentyP">20p:</label>
+        <input type="number" id="twentyP" name="twentyP" value="0" step="0.01"><br><br>
+        <label for="tenP">10p:</label>
+        <input type="number" id="tenP" name="tenP" value="0" step="0.01"><br><br>
+        <label for="fiveP">5p:</label>
+        <input type="number" id="fiveP" name="fiveP" value="0" step="0.01"><br><br>
+        <label for="twoP">2p:</label>
+        <input type="number" id="twoP" name="twoP" value="0" step="0.01"><br><br>
+        <label for="oneP">1p:</label>
+        <input type="number" id="oneP" name="oneP" value="0" step="0.01"><br><br>
+      </div>
+
+      <div class="extra-cash">
+        <h2>Additional Cash</h2>
+        <label for="extraCash">Extra Cash (£):</label>
+        <input type="number" id="extraCash" name="extraCash" value="0" step="0.01"><br><br>
+      </div>
+
+      <div class="float">
+        <label for="floatAmount">Float Amount (£):</label>
+        <input type="number" id="floatAmount" name="floatAmount" value="150"><br><br>
+      </div>
+
+      <button type="submit">Calculate</button>
+      <button type="reset">Reset</button>
+    </form>
+
+    <div id="results" class="results"></div>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>
