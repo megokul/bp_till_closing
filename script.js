@@ -59,39 +59,46 @@ document.getElementById('tillForm').addEventListener('submit', function(event) {
   const totalCash = notesTotal + coinsTotal + extraCash;
   const safeDrop = totalCash - floatAmount;
 
-let html = '<h2>Results</h2>';
+  let html = '<h2>Results</h2>';
 
-// Notes table
-html += '<h3>Notes Breakdown</h3>';
-html += '<table class="breakdown"><thead><tr><th>Denomination</th><th>Count</th><th>Value (£)</th></tr></thead><tbody>';
-notes.forEach(n => {
-  html += `<tr><td>${n.label}</td><td>${n.count}</td><td>${n.value.toFixed(2)}</td></tr>`;
-});
-html += `<tr class="totals"><td colspan="2">Total Notes</td><td>£${notesTotal.toFixed(2)}</td></tr>`;
-html += '</tbody></table>';
+  html += '<h3>Notes Breakdown</h3>';
+  html += '<table class="breakdown"><thead><tr><th>Denomination</th><th>Count</th><th>Value (£)</th></tr></thead><tbody>';
+  notes.forEach(n => {
+    html += `<tr><td>${n.label}</td><td>${n.count}</td><td>${n.value.toFixed(2)}</td></tr>`;
+  });
+  html += `<tr class="totals"><td colspan="2">Total Notes</td><td>£${notesTotal.toFixed(2)}</td></tr>`;
+  html += '</tbody></table>';
 
-// Coins table
-html += '<h3>Coins Breakdown</h3>';
-html += '<table class="breakdown"><thead><tr><th>Denomination</th><th>Count</th><th>Value (£)</th></tr></thead><tbody>';
-coins.forEach(c => {
-  html += `<tr><td>${c.label}</td><td>${c.count}</td><td>${c.value.toFixed(2)}</td></tr>`;
-});
-html += `<tr class="totals"><td colspan="2">Total Coins</td><td>£${coinsTotal.toFixed(2)}</td></tr>`;
-html += '</tbody></table>';
+  html += '<h3>Coins Breakdown</h3>';
+  html += '<table class="breakdown"><thead><tr><th>Denomination</th><th>Count</th><th>Value (£)</th></tr></thead><tbody>';
+  coins.forEach(c => {
+    html += `<tr><td>${c.label}</td><td>${c.count}</td><td>${c.value.toFixed(2)}</td></tr>`;
+  });
+  html += `<tr class="totals"><td colspan="2">Total Coins</td><td>£${coinsTotal.toFixed(2)}</td></tr>`;
+  html += '</tbody></table>';
 
-// Extra Cash table
-html += '<h3>Extra Cash Breakdown</h3>';
-html += '<table class="breakdown"><thead><tr><th>Description</th><th>Value (£)</th></tr></thead><tbody>';
-html += `<tr><td>Extra Cash Entered</td><td>${extraCash.toFixed(2)}</td></tr>`;
-html += '</tbody></table>';
+  html += '<h3>Extra Cash Breakdown</h3>';
+  html += '<table class="breakdown"><thead><tr><th>Description</th><th>Value (£)</th></tr></thead><tbody>';
+  html += `<tr><td>Extra Cash</td><td>${extraCash.toFixed(2)}</td></tr>`;
+  html += '</tbody></table>';
 
-// Summary box
-html += '<div class="summary">';
-html += `<div class="item"><span>Combined Cash:</span> <span class="highlight">£${totalCash.toFixed(2)}</span></div>`;
-html += `<div class="item"><span>Float Amount:</span> <span>£${floatAmount.toFixed(2)}</span></div>`;
-html += `<div class="item"><span>Safe Drop:</span> <span class="highlight">£${safeDrop.toFixed(2)}</span></div>`;
-html += '</div>';
+  html += '<div class="summary">';
+  html += `<div class="item"><span>Combined Cash:</span> <span class="highlight">£${totalCash.toFixed(2)}</span></div>`;
+  html += `<div class="item"><span>Float Amount:</span> <span>£${floatAmount.toFixed(2)}</span></div>`;
+  html += `<div class="item"><span>Safe Drop:</span> <span class="highlight">£${safeDrop.toFixed(2)}</span></div>`;
+  html += '</div>';
 
-document.getElementById('results').innerHTML = html;
+  document.getElementById('results').innerHTML = html;
 
+  // Show and set up download button
+  const btn = document.getElementById('downloadImage');
+  btn.style.display = 'inline-block';
+  btn.onclick = function() {
+    html2canvas(document.getElementById('results')).then(canvas => {
+      const link = document.createElement('a');
+      link.download = 'till_report.png';
+      link.href = canvas.toDataURL('image/png');
+      link.click();
+    });
+  };
 });
