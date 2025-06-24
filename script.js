@@ -79,7 +79,7 @@ document.getElementById('tillForm').addEventListener('submit', function(event) {
 
   html += '<h3>Extra Cash Breakdown</h3>';
   html += '<table class="breakdown"><thead><tr><th>Description</th><th>Value (£)</th></tr></thead><tbody>';
-  html += `<tr><td>Extra Cash</td><td>${extraCash.toFixed(2)}</td></tr>`;
+  html += `<tr><td>Extra Cash Entered</td><td>${extraCash.toFixed(2)}</td></tr>`;
   html += '</tbody></table>';
 
   html += '<div class="summary">';
@@ -90,7 +90,7 @@ document.getElementById('tillForm').addEventListener('submit', function(event) {
 
   document.getElementById('results').innerHTML = html;
 
-  // Show and set up download button
+  // Show and configure the download button
   const btn = document.getElementById('downloadImage');
   btn.style.display = 'inline-block';
   btn.onclick = function() {
@@ -101,4 +101,10 @@ document.getElementById('tillForm').addEventListener('submit', function(event) {
       link.click();
     });
   };
+});
+
+// Handle reset: clear results + hide download button
+document.getElementById('tillForm').addEventListener('reset', function(event) {
+  document.getElementById('results').innerHTML = '';
+  document.getElementById('downloadImage').style.display = 'none';
 });
