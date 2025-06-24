@@ -37,11 +37,9 @@ bp-till-cashup/
 
 ## 🌐 Hosting
 
-This application is hosted on AWS S3.  
+This application is hosted on **AWS S3** using **Static Website Hosting**.  
 👉 **Website URL:**  
-http://bp-projects.s3-website-us-east-1.amazonaws.com/
-
-*(Replace with your actual S3 static website endpoint URL)*
+[http://bp-projects.s3-website-us-east-1.amazonaws.com/](http://bp-projects.s3-website-us-east-1.amazonaws.com/)
 
 ---
 
