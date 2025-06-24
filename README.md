@@ -25,11 +25,12 @@
 ---
 
 ## 📦 Project Structure
+```text
 bp-till-cashup/
 ├── index.html # Main app page
 ├── style.css # App styling
 └── script.js # App logic
-
+```
 
 
 ---
