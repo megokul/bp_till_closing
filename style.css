@@ -145,3 +145,12 @@ table.breakdown tr.totals {
     margin: 2px 0;
   }
 }
+
+.warning {
+  padding: 10px;
+  border: 2px solid red;
+  background-color: #ffe5e5;
+  margin-top: 15px;
+  text-align: center;
+  border-radius: 6px;
+}

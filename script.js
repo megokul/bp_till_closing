@@ -1,3 +1,40 @@
+function getSafeDropBreakdown(amount, notes, coins) {
+  const breakdown = [];
+  const allDenoms = [
+    ...notes.map(n => ({
+      denom: parseFloat(n.label.replace("£", "")),
+      label: n.label,
+      count: n.count
+    })),
+    ...coins.map(c => ({
+      denom: parseFloat(c.label.replace("£", "").replace("p", "")) / (c.label.includes("p") ? 100 : 1),
+      label: c.label,
+      count: c.count
+    }))
+  ].sort((a, b) => b.denom - a.denom);
+
+  let remaining = amount;
+
+  for (const d of allDenoms) {
+    const needed = Math.floor(remaining / d.denom);
+    const used = Math.min(needed, d.count);
+    if (used > 0) {
+      breakdown.push({ label: d.label, count: used, value: +(used * d.denom).toFixed(2) });
+      remaining -= used * d.denom;
+      remaining = +remaining.toFixed(2);
+    }
+    if (remaining === 0) break;
+  }
+
+  return { breakdown, leftover: remaining };
+}
+
+function getTimestampedFilename() {
+  const now = new Date();
+  const iso = now.toISOString().replace(/[:.]/g, "-"); // e.g., 2025-06-26T14-22-01-123Z
+  return `closing_${iso}.png`;
+}
+
 document.getElementById('tillForm').addEventListener('submit', function(event) {
   event.preventDefault();
 
@@ -88,22 +125,38 @@ document.getElementById('tillForm').addEventListener('submit', function(event) {
   html += `<div class="item"><span>Safe Drop:</span> <span class="highlight">£${safeDrop.toFixed(2)}</span></div>`;
   html += '</div>';
 
+  const { breakdown: safeDropBreakdown, leftover: safeDropLeftover } = getSafeDropBreakdown(safeDrop, notes, coins);
+
+  html += '<h3>Safe Drop Breakdown</h3>';
+  html += '<table class="breakdown"><thead><tr><th>Denomination</th><th>Count</th><th>Value (£)</th></tr></thead><tbody>';
+  safeDropBreakdown.forEach(item => {
+    html += `<tr><td>${item.label}</td><td>${item.count}</td><td>${item.value.toFixed(2)}</td></tr>`;
+  });
+  const totalDropValue = safeDropBreakdown.reduce((sum, i) => sum + i.value, 0);
+  html += `<tr class="totals"><td colspan="2">Total Used</td><td>£${totalDropValue.toFixed(2)}</td></tr>`;
+  html += '</tbody></table>';
+
+  if (safeDropLeftover > 0) {
+    html += `<div class="warning" style="color: red; font-weight: bold; margin-top: 10px;">
+      Warning: Unable to fully split the safe drop amount. <br/>
+      Remaining unallocated: £${safeDropLeftover.toFixed(2)}
+    </div>`;
+  }
+
   document.getElementById('results').innerHTML = html;
 
-  // Show and configure the download button
   const btn = document.getElementById('downloadImage');
   btn.style.display = 'inline-block';
-  btn.onclick = function() {
+  btn.onclick = function () {
     html2canvas(document.getElementById('results')).then(canvas => {
       const link = document.createElement('a');
-      link.download = 'till_report.png';
+      link.download = getTimestampedFilename();
       link.href = canvas.toDataURL('image/png');
       link.click();
     });
   };
 });
 
-// Handle reset: clear results + hide download button
 document.getElementById('tillForm').addEventListener('reset', function(event) {
   document.getElementById('results').innerHTML = '';
   document.getElementById('downloadImage').style.display = 'none';
